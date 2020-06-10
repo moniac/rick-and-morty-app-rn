@@ -10,9 +10,14 @@ const Stack = createStackNavigator();
 function CharacterStack() {
 	return (
 		<Stack.Navigator>
-			<Stack.Screen name='Home' component={HomeScreen} />
+			<Stack.Screen
+				name='Home'
+				options={{ title: 'Characters' }}
+				component={HomeScreen}
+			/>
 			<Stack.Screen
 				name='CharacterDetail'
+				options={{ title: 'Character Detail' }}
 				component={CharacterDetailScreen}
 			/>
 		</Stack.Navigator>

@@ -21,7 +21,6 @@ export default function HomeScreen(props) {
 	const [nextPage, setNextPage] = useState(1);
 	const [pageLimit, setPageLimit] = useState(undefined);
 	const { navigation } = props;
-	console.log(navigation);
 
 	useEffect(() => {
 		async function getTest() {
@@ -36,7 +35,7 @@ export default function HomeScreen(props) {
 		if (nextPage > pageLimit) {
 			return;
 		}
-		console.log(nextPage);
+
 		async function getNext() {
 			const data = await fetch(
 				'https://rickandmortyapi.com/api/character/?page=' + nextPage,
@@ -51,7 +50,7 @@ export default function HomeScreen(props) {
 				);
 			}
 			const filtered = removeDuplicates(merged, 'id');
-			console.log(filtered);
+
 			setCharacters(filtered);
 		}
 
@@ -89,6 +88,7 @@ export default function HomeScreen(props) {
 								onPress={() =>
 									navigation.navigate('CharacterDetail', {
 										characterId: item.id,
+										title: item.name,
 									})
 								}
 							/>
