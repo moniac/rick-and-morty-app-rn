@@ -7,6 +7,7 @@ import { getCharacter } from '../hooks/useApi';
 
 export default function CharacterDetailScreen(props) {
 	const [character, setCharacter] = useState({});
+
 	const {
 		route: { params },
 		navigation,

@@ -2,19 +2,13 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useEffect, useState } from 'react';
 import {
 	Image,
-	Platform,
 	StyleSheet,
-	Text,
-	TouchableOpacity,
+	TextInput,
 	View,
 	FlatList,
 	Button,
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-
-import { MonoText } from '../components/StyledText';
 import { getCharacter } from '../hooks/useApi';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen(props) {
 	const [characters, setCharacters] = useState([]);
@@ -22,10 +16,27 @@ export default function HomeScreen(props) {
 	const [pageLimit, setPageLimit] = useState(undefined);
 	const { navigation } = props;
 
+	const [search, setSearch] = useState(undefined);
+
+	useEffect(() => {
+		console.log(search);
+		if (!search) {
+			setCharacters([]);
+			setNextPage(1);
+		}
+		async function getCharacterBySearch() {
+			const response = await getCharacter({ name: search });
+			setCharacters(response.results);
+			console.log(response.results);
+		}
+
+		getCharacterBySearch();
+	}, [search]);
+
 	useEffect(() => {
 		async function getTest() {
 			const response = await getCharacter({ page: 1 });
-			setCharacters((prevValues) => [...prevValues, ...response.results]);
+			setCharacters((prevValues) => response.results);
 			setPageLimit(response.info.pages);
 		}
 		getTest();
@@ -43,15 +54,15 @@ export default function HomeScreen(props) {
 			const response = await data.json();
 
 			const merged = [...characters, ...response.results];
-			function removeDuplicates(array, key) {
-				let lookup = new Set();
-				return array.filter(
-					(obj) => !lookup.has(obj[key]) && lookup.add(obj[key]),
-				);
-			}
-			const filtered = removeDuplicates(merged, 'id');
+			// function removeDuplicates(array, key) {
+			// 	let lookup = new Set();
+			// 	return array.filter(
+			// 		(obj) => !lookup.has(obj[key]) && lookup.add(obj[key]),
+			// 	);
+			// }
+			// const filtered = removeDuplicates(merged, 'id');
 
-			setCharacters(filtered);
+			setCharacters(merged);
 		}
 
 		getNext();
@@ -63,6 +74,11 @@ export default function HomeScreen(props) {
 				centerContent={true}
 				numColumns={1}
 				data={characters}
+				ListHeaderComponent={
+					<TextInput
+						onChangeText={(event) => setSearch(event.trim())}
+					/>
+				}
 				contentContainerStyle={{
 					justifyContent: 'center',
 					alignItems: 'center',

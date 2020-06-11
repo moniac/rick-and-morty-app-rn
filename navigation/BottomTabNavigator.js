@@ -23,7 +23,7 @@ export default function BottomTabNavigator({ navigation, route }) {
 				options={{
 					title: 'Characters',
 					tabBarIcon: ({ focused }) => (
-						<TabBarIcon focused={focused} name='md-code-working' />
+						<TabBarIcon focused={focused} name='md-person' />
 					),
 				}}
 			/>
@@ -31,9 +31,9 @@ export default function BottomTabNavigator({ navigation, route }) {
 				name='Links'
 				component={LinksScreen}
 				options={{
-					title: 'Resources',
+					title: 'Locations',
 					tabBarIcon: ({ focused }) => (
-						<TabBarIcon focused={focused} name='md-book' />
+						<TabBarIcon focused={focused} name='md-planet' />
 					),
 				}}
 			/>
